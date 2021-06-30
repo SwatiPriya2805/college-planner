@@ -1,5 +1,5 @@
 <template>
-    <div class="row container-fluid">
+    <div class="row container-fluid mt-5 pt-4">
         <div class="col-12 w-90">
             <h3>Sign Up</h3>
             <hr class="border-info"/>
@@ -107,8 +107,7 @@
                                 id="department" 
                                 v-model="department"
                                 >
-                                <option class="option-department" value="cse" selected >CSE</option>
-                                <option class="option-department" value="imh">IMH</option>
+                                <option class="option-department" value="imh" selected>IMH</option>
                             </select>
                         </div>
                         <br/>
@@ -147,12 +146,15 @@
         data() {
             return {
                 processing: false,
-                department:'cse',
+                department:'imh',
                 form: {
                     name:'',
                     email: '',
                     password: '',
-                    department:''
+                    department:'imh',
+                    valid: false,
+                    role: 'general',
+                    token: '1234abcd'// pass a randomly generated token to db
                 }
             };
         },

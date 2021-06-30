@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand navbar-light bg-light">
+    <nav class="navbar navbar-expand navbar-light bg-light display">
         <div class="container-fluid" v-if="isAuthenticated">
             <ul class="nav navbar-nav py-2 ">
                 <li  class="nav-item">
@@ -78,7 +78,10 @@
             },
             isAuthenticated() {
                 return this.$store.getters.isAuthenticated;
-            }
+            },
+            role() {
+                return this.$store.state.auth.role;
+            },
         },
         methods: {
             logout() {
@@ -116,5 +119,11 @@
 }
 .cursor-pointer {
     cursor: pointer;
+}
+.display{
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    top:0;
 }
 </style>

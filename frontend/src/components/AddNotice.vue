@@ -1,5 +1,5 @@
 <template>
-    <div class="container " id="add-notice-box">
+    <div class="container mb-4" id="add-notice-box">
         <h3 class="text-white">Add a new notice</h3>
         <hr>
         <!---input form for add new notice-->
@@ -56,9 +56,9 @@
             </div>
 
              <div class="form-group">
-                <label for="file">Upload file</label>
+                <label for="image">Upload image</label>
                 <br/>
-                    <input 
+                    <!-- <input 
                         type="file"
                         name="file"
                         id="file"
@@ -69,9 +69,26 @@
                             'is-valid': shouldAppendValidClass($v.form.file)
                         }"
                     />
+                    <br/> -->
+                    <input 
+                        type="text"
+                        name="image"
+                        class="form-control"
+                        id="image"
+                        v-model="form.image"
+                        @blur="$v.form.image.$touch()"
+                        :class="{
+                            'is-invalid': shouldAppendErrorClass($v.form.image),
+                            'is-valid': shouldAppendValidClass($v.form.image)
+                        }"
+                    />
                     <br/>
-                    <br/>
-                    <div v-if="this.form.file !== null">
+                     <div v-if="$v.form.image.$error">
+                        <div v-if="!$v.form.image.required" class="error-message">
+                            <small>The image field is required</small>
+                        </div>
+                    </div>
+                    <!-- <div v-if="this.form.file !== null">
                         File preview
                         <br/>
                         <img class="m-2 image" :src="avatar" alt="selected image" width="600" >
@@ -80,7 +97,7 @@
                         <div v-if="!$v.form.file.checkFile" class="error-message">
                             <small>The file field is required</small>
                         </div>
-                    </div> 
+                    </div>  -->
 
             </div>
 
@@ -106,9 +123,10 @@
                     date: new Date().toDateString(),
                     title: '',
                     description: '',
-                    file:null,
+                    image:''
+                    //file:null,
                 },
-                avatar:null
+                // avatar:null
             };
         },
         validations: {
@@ -121,31 +139,34 @@
                     required,
                     minLength:minLength(12)
                 },
-                file:{
-                    checkFile: function(){
-                         if(this.form.file === null){
-                            return false;
-                        }
-                        else{
-                            return true;
-                        }
-                    },
+                image:{
+                    required
                 }
+                // file:{
+                //     checkFile: function(){
+                //          if(this.form.file === null){
+                //             return false;
+                //         }
+                //         else{
+                //             return true;
+                //         }
+                //     },
+                // }
             }
         },
         methods: {
             cancel(){
                 window.location.href="/notice";
             },
-            onFileSelected(event){
+            // onFileSelected(event){
 
-                this.form.file = event.target.files[0];
-                let reader = new FileReader();
-                reader.readAsDataURL(this.form.file);
-                reader.onload = event => {
-                    this.avatar = event.target.result
-                }
-            },
+            //     this.form.file = event.target.files[0];
+            //     let reader = new FileReader();
+            //     reader.readAsDataURL(this.form.file);
+            //     reader.onload = event => {
+            //         this.avatar = event.target.result
+            //     }
+            // },
             addNotice() {
                 
                 this.$v.form.$touch();

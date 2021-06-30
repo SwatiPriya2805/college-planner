@@ -1,5 +1,5 @@
 <template>
-    <div class="my-4">
+    <div class="mb-4 mt-5 pt-4">
         <div class="row">
             <div class="w-80 col-12">
                 <h3>Login</h3>
@@ -8,7 +8,7 @@
                     
                     <div class="col col-sm-12 col-md-6 col-lg-6 mt-5">
                         <!---input form for login -->
-                        <form name="form" @submit.prevent="login">
+                        <form name="form" @submit.prevent="firstLogin">
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input
@@ -133,7 +133,7 @@
 
 <script>
     import Vue from 'vue';
-    import { email, required, minLength } from 'vuelidate/lib/validators'
+    import { email, required, minLength } from 'vuelidate/lib/validators';
     import config from '@/config';
 
     export default {
@@ -186,11 +186,11 @@
             }
         },
         methods: {
-            login() {
+            firstLogin() {
                 this.$v.form.$touch();
 
                 if( !this.$v.form.$invalid ) {
-                        this.$store.dispatch( 'login', this.form )
+                        this.$store.dispatch( 'firstLogin', this.form )
                         .then(() => this.$router.push( { name: 'home' } ))
                         .then(()=>{
                             Vue.$toast.open({

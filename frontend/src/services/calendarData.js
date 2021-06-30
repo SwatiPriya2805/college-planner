@@ -4,7 +4,7 @@ import { getToken } from '@/services/auth';
 
 export const fetchCalendarData= (date) => {
     return axios.get(
-        `${config.apiBaseUrl}/api/calendar?startDate=${date}`,
+        `${config.apiBaseUrl}/api/calendar?date=${date}`,
         {
             headers: {
                 'Access-Control-Allow-Origin':'*',

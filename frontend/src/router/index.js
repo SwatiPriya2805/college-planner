@@ -23,7 +23,7 @@ import store from '@/store';
  * Let authorize be empty to allow access to all authenticated users
  */
 const meta = {
-    authorize: [ ]
+    authorize: [ 'admin', 'general' ]
 };
 
 const router = new Router({
@@ -59,7 +59,9 @@ const router = new Router({
                     name:'addNotice',
                     path:'addNotice',
                     component: AddNotice,
-                    meta
+                    meta: {
+                        authorize: [ 'admin' ]
+                    }
                 },
             ]
         },
@@ -79,7 +81,9 @@ const router = new Router({
                     name: 'addNotes',
                     path: 'addNotes',
                     component: AddNotes,
-                    meta
+                    meta:{
+                        authorize: [ 'admin' ]
+                    },
                 },
                 {
                     name: 'timetable',
@@ -91,7 +95,9 @@ const router = new Router({
                     name: 'addTimetable',
                     path: 'addTimetable',
                     component: AddTimetable,
-                    meta
+                    meta:{
+                        authorize: [ 'admin' ]
+                    }
                 },
                 {
                     name: 'chat',
@@ -116,10 +122,12 @@ const router = new Router({
             children: [
                 {
                     name: 'add',
-                    path: 'add/:name',
+                    path: 'add/:name', 
                     props: true,
                     component: Add,
-                    meta
+                    meta:{
+                        authorize: [ 'admin' ]
+                    }
                 }
             ]
         },
@@ -138,14 +146,20 @@ const router = new Router({
 });
 
 router.beforeEach(( to, from, next ) => {
-    // Right now, role-based authorization is NOT supported
-    if( to.meta.authorize && !store.getters.isAuthenticated ) {
-        next({
+    const authorize = to.meta.authorize
+    if( authorize && !store.getters.isAuthenticated ) {
+        return next({
             name: 'login'
         });
     } else {
-        next();
+        if( authorize && !authorize.includes( store.state.auth.role ) ) {
+            return next({
+                path: '/'
+            });
+        }
     }
+
+    next();
 });
 
 export default router;

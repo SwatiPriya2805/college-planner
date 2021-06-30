@@ -22,6 +22,22 @@ const login = ( credentials ) => {
     .catch( errorHandler );
 };
 
+const firstLogin = ( credentials ) => {
+    return axios.post(
+        `http://localhost:3000/auth/firstLogin`,
+        credentials,
+        {
+            headers: {
+                'Access-Control-Allow-Origin':'*',
+                'Content-Type': 'application/json'
+            },
+            withCredentials: false
+        }
+    )
+    .then(successHandler)
+    .catch( errorHandler );
+};
+
 const signUp = ( credentials ) => {
     return axios.post(
         `${config.apiBaseUrl}/auth/register`, credentials,
@@ -60,6 +76,7 @@ const getToken = () => {
 
 export {
     login,
+    firstLogin,
     signUp,
     getToken,
     getEmail

@@ -1,16 +1,15 @@
 <template>
-  <div class="my-4 ">
+  <div class="mb-5  mt-5 pt-5">
     <div class="w-100 col-12">
       <div class="row ml-1">
         <div class="col col-sm-12 col-md-12 col-lg-6 mt-5 float-lg-left back">
             <br />
             
-            <h2>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid</h2>
+            <h2 class="text-info">LEARN . GROW . EXCEL</h2>
+            <br/>
             <h4>
-            optio, ad incidunt eum beatae laudantium Quae soluta illum delectus
-            consequuntur non quibusdam veritatis, rerum, nesciunt ratione autem
-            dolor, perspiciatis totam
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid
+            College planner helps you to keep a track of college notice, notes, timetable, club events.
+            Just login with your college email id and get your college planner ready.
             </h4>
             <br/>
             <button type="button" class="btn btn-info button" @click="login">Get started</button>

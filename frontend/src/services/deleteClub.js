@@ -2,9 +2,9 @@ import axios from 'axios';
 import config from '@/config.production';
 import { getToken } from '@/services/auth';
 
-export const fetchDelete= (type,Id,action,credentials) => {
+export const fetchDeleteClub= (type,Id,action,name,credentials) => {
     axios.patch(
-        `${config.apiBaseUrl}/api/${type}/${Id}?action=${action}`,
+        `${config.apiBaseUrl}/api/${type}/${Id}?action=${action}&name=${name}`,
         credentials,
         {
             headers: {

@@ -16,14 +16,21 @@
         </div>    
 
         <div class="mt-4" v-else>
+            <AppAlert theme="info" v-if="notesData.length===0">
+            <template v-slot:title>
+            <h6>Hey there!</h6>
+            </template>
+            <h5><i class="fas fa-user-clock"></i> No notes available.</h5>
+            <h6>Please contact the admin to add notes</h6>
+            </AppAlert> 
             <div class="row">
                 <div class="card col-lg-12 col-md-12 col-sm-12 mb-5 mx-2" v-for="notes in notesData" :key="notes.id">
                     <div class="card-body">
-                        <h6 class="float-right text-muted">Subject - {{ notes.subject }}</h6>
-                        <h5 class="card-title">Description - {{ notes.description }}</h5>
-                        <h5>Link - <span class="link">{{notes.link}}</span></h5>
-                        <button class="btn btn-danger" type="button" v-on:click="descript(notes._id)">Delete</button>
                         <h6 class="text-muted float-right">{{notes.uploadDate}}</h6>
+                        <h5 class="card-title mt-2">Subject - {{ notes.subject }}</h5>
+                        <h6>Description - {{ notes.description }}</h6>
+                        <h6>Link - <span class="link font-weight-normal" @click="link(notes.link)">{{notes.link}}</span></h6>
+                        <button class="btn btn-danger p-1" type="button" v-on:click="descript(notes._id)" v-if="role === 'admin'">Delete</button>
                     </div>
                 </div>
             </div>
@@ -32,8 +39,8 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    import config from '@/config';
+    // import Vue from 'vue';
+    // import config from '@/config';
     import AppAlert from '@/components/utils/AppAlert';
     import { fetchNotesData } from '@/services/notesData';
     import { fetchDelete } from '@/services/delete';
@@ -47,29 +54,37 @@
                 status: 'LOADING',
                 description:null,
                 notesData: [],
-                type: 'notes',
+                type: 'department/notes',
                 action:'remove_notes',
                 error: null,
             }
         },
+        computed: {
+            role() {
+                return this.$store.state.auth.role;
+            },
+        },
         methods:{
+            link(url){
+                window.open(url, "_blank");
+            },
             descript(notesId) {
                 fetchDelete(this.type,notesId,this.action)
-                    .then(()=>{
-                        Vue.$toast.open({
-                            message:'Successfully deleted the notes',
-                            duration: config.toastDuration,
-                            type: 'success'
-                        });
-                        window.location.href="/department/notes";
-                    })
-                    .catch( error => {
-                        Vue.$toast.open({
-                            message: error.response.data.message,
-                            duration: config.toastDuration,
-                            type: 'error'
-                        });
-                    });
+                    // .then(()=>{
+                    //     Vue.$toast.open({
+                    //         message:'Successfully deleted the notes',
+                    //         duration: config.toastDuration,
+                    //         type: 'success'
+                    //     });
+                    //     window.location.href="/department/notes";
+                    // })
+                    // .catch( error => {
+                    //     Vue.$toast.open({
+                    //         message: error.response.data.message,
+                    //         duration: config.toastDuration,
+                    //         type: 'error'
+                    //     });
+                    // });
                     
             },
         },
@@ -77,8 +92,8 @@
             this.status = 'LOADING';
             
             fetchNotesData()
-                .then( noticeData => {
-                    this.noticeData = noticeData;
+                .then( notesData => {
+                    this.notesData = notesData;
                     this.status = 'LOADED';
                 })
                 .catch( error => {

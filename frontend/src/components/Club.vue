@@ -1,9 +1,9 @@
 <template>
-    <div class="container">
+    <div class="container mt-5 pt-4">
         <router-view></router-view>
-        <router-link class="text-reset text-decoration-none" :to="{ name: 'add', params: { name: this.name } }">
-            <button class="btn btn-info float-right">Add event</button>
-        </router-link>
+            <router-link class="text-reset text-decoration-none mt-4" :to="{ name: 'add', params: { name: this.name } }" v-if="role === 'admin'">
+                <button class="btn btn-info float-right">Add event</button>
+            </router-link> 
         <div class="my-2" v-if="status === 'LOADING'">
             <app-alert theme="info">
                 <template v-slot:title>
@@ -18,7 +18,7 @@
                 <strong>{{error.message}}</strong>
             </AppAlert> 
         </div>
-        <div class="row my-2" v-else>
+        <div class="row my-4" v-else> 
             <AppAlert theme="info" v-if="clubData.events.length===0">
                 <template v-slot:title>
                 <h6>Hey there!</h6>
@@ -29,11 +29,11 @@
             <br/>
             <hr class="border-info"/>
             
-            <div v-for="event in clubData.events" :key="event._id">
+            <div class="mt-4" v-for="event in clubData.events" :key="event._id">
                 <div class="card col-lg-12 col-md-12 col-sm-12 mb-5 club-card " >
                     <div class="card-body">
                         <h6 class="text-muted float-right">{{event.uploadDate}}</h6>
-                        <h5 class="card-title">Event title : {{ event.title }}</h5>
+                        <h5 class="card-title mt-2">Event title : {{ event.title }}</h5>
                         <h6 class="my-1">Description : <span class="font-weight-normal">{{ event.description }}</span></h6>
                         <br/> 
                         <h6>Date : 
@@ -41,7 +41,7 @@
                             {{ dateTime.date| date( 'standard' ) }} (<time>{{dateTime.startTime.hours}}</time>:<time>{{dateTime.startTime.minutes}}</time>-<time>{{dateTime.endTime.hours}}</time>:<time>{{dateTime.endTime.minutes}}</time>) &nbsp;</span>
                         </h6>
                         <h6 v-on:click.prevent="links(event.link)">Link : <span class="link"> {{event.link}}</span></h6>
-                        <button class="btn btn-danger" type="button" v-on:click="descript(event._id)">Delete</button>
+                        <!-- <button class="btn btn-danger" type="button" v-on:click="descript(event._id)" v-if="role === 'admin'">Delete</button> -->
                     </div>
                 </div>
             </div>    
@@ -50,10 +50,10 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    import config from '@/config';
+    //import Vue from 'vue';
+    //import config from '@/config';
     import AppAlert from '@/components/utils/AppAlert';
-    import { fetchDelete } from '@/services/delete';
+    //import { fetchDeleteClub } from '@/services/deleteClub';
     import { fetchEventsByName } from '@/services/clubEvents';
     export default {
         name: 'Club',
@@ -79,8 +79,8 @@
        
         created() {
             fetchEventsByName( this.name )
-                .then(club => {
-                    this.club = club;
+                .then(clubData => {
+                    this.clubData = clubData;
                     this.status = 'LOADED';
                 })
                 .catch(error => {
@@ -88,29 +88,19 @@
                     this.status = 'ERROR';
                 });
         },
+        computed: {
+            role() {
+                return this.$store.state.auth.role;
+            },
+        },
         methods:{
             links(url){
                 window.open(url, "_blank");
             },
-            descript(Id) {
-                fetchDelete(this.type,Id,this.action)
-                    .then(() => this.$router.push( { name: 'clubList' } ))
-                    .then(()=>{
-                        Vue.$toast.open({
-                            message:'Successfully deleted the club event',
-                            duration: config.toastDuration,
-                            type: 'success'
-                        });
-                    })
-                    .catch( error => {
-                        Vue.$toast.open({
-                            message: error.response.data.message,
-                            duration: config.toastDuration,
-                            type: 'error'
-                        });
-                    });
+            // descript(Id) {
+            //     fetchDeleteClub(this.type,Id,this.action,this.name)
                     
-            },
+            // },
         }
     };
 </script>

@@ -1,5 +1,5 @@
 <template>
-        <div class="container" id="add-event-box">
+        <div class="container mb-4" id="add-event-box">
             <h3 class="text-white">Add new notes</h3>
             <hr>
             <!--- input form for adding notes -->

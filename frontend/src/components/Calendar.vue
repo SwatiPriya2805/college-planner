@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container mt-5 pt-4">
         <h1>Calendar</h1>
         <hr class="border-info"/>
         <!---input field of calendar page -->
@@ -16,7 +16,7 @@
         </div>
 
         <!---calendar rows -->
-        <AppAlert theme="info" v-if="status === 'LOADING'">
+        <!-- <AppAlert theme="info" v-if="status === 'LOADING'">
             <template v-slot:title>
                 <strong>Hey there!</strong>
             </template>
@@ -25,10 +25,10 @@
         
         <AppAlert theme="danger" v-else-if="status === 'ERROR'">
             <strong>{{error.message}}</strong>
-        </AppAlert>
+        </AppAlert> -->
         
-        <div class="calendar-1" v-else>
-            <AppAlert theme="info" v-if="calendarData.length===0">
+        <div class="calendar-1" > <!--v-else-->
+            <AppAlert theme="info" v-if="calendarDummyData.length===0">
                 <template v-slot:title>
                 <h6>Hey there!</h6>
                 </template>
@@ -48,7 +48,7 @@
                     <div class="calendar-hour-box"></div>
                 </div>    
                 <div class="">
-                    <div class="" v-for="calendar in calendarData"
+                    <div class="" v-for="calendar in calendarDummyData"
                     :key="calendar._id">
                         <div class="" v-for="events in calendar.events"
                         :key="events._id" >
@@ -70,7 +70,7 @@
 
 <script>
     import AppAlert from '@/components/utils/AppAlert';
-    import { fetchCalendarData } from '@/services/calendarData';
+    //import { fetchCalendarData } from '@/services/calendarData';
 
     export default{
         name:'Calendar',
@@ -80,9 +80,9 @@
         data(){
             return {
                 status: 'LOADING',
-                selectedDate: '2021-05-22',
+                selectedDate:'2021-06-30',
                 dateTime:[],
-                calendarData: [],
+                //calendarData: [],
                 calendarDummyData:[
                     {
                         _id:1,
@@ -99,7 +99,7 @@
                                 dates:[
                                     {
                                         _id:1234,
-                                        date:'2021-05-22',
+                                        date:'2021-06-30',
                                         startTime:{
                                             hours:18,
                                             minutes:0,
@@ -111,7 +111,7 @@
                                     },
                                     {
                                         _id:1235,
-                                        date:'2021-05-23',
+                                        date:'2021-06-29',
                                         startTime:{
                                             hours:17,
                                             minutes:0,
@@ -132,7 +132,7 @@
                                 dates:[
                                     {
                                         _id:1233,
-                                        date:'2021-05-22',
+                                        date:'2021-06-30',
                                         startTime:{
                                             hours:12,
                                             minutes:15,
@@ -144,7 +144,7 @@
                                     },
                                     {
                                         _id: 1223,
-                                        date:'2021-06-23',
+                                        date:'2021-06-28',
                                         startTime:{
                                             hours:"17",
                                             minutes:"0",
@@ -164,34 +164,34 @@
                 error: null,
             }
         },
-        created() { // when component instance is created and its data is available
-            this.status = 'LOADING';
+        // created() { // when component instance is created and its data is available
+        //     this.status = 'LOADING';
             
-            fetchCalendarData(this.date)
-                .then( calendarData => {
-                    this.calendarData = calendarData;
-                    this.status = 'LOADED';
-                })
-                .catch( error => {
-                    this.error = error;
-                    this.status = 'ERROR'
-                })
+        //     fetchCalendarData(this.selectedDate)
+        //         .then( calendarData => {
+        //             this.calendarData = calendarData;
+        //             this.status = 'LOADED';
+        //         })
+        //         .catch( error => {
+        //             this.error = error;
+        //             this.status = 'ERROR'
+        //         })
             
-        },
+        // },
         methods:{
-            fetchSearch(){
-                this.status = 'LOADING';
+            // fetchSearch(){
+            //     this.status = 'LOADING';
             
-                fetchCalendarData(this.date)
-                    .then( calendarData => {
-                        this.calendarData = calendarData;
-                        this.status = 'LOADED';
-                    })
-                    .catch( error => {
-                        this.error = error;
-                        this.status = 'ERROR'
-                    });
-            },
+            //     fetchCalendarData(this.selectedDate)
+            //         .then( calendarData => {
+            //             this.calendarData = calendarData;
+            //             this.status = 'LOADED';
+            //         })
+            //         .catch( error => {
+            //             this.error = error;
+            //             this.status = 'ERROR'
+            //         });
+            // },
             day(date){
                 var str=(new Date(date)).toDateString();
                 return str.substring(0,3);

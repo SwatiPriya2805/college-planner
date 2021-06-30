@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container mt-5 pt-5">
         <h3>Department </h3>
         <hr class="border-info">
         <div class="container">
@@ -7,13 +7,13 @@
                 <router-link class="mr-3 p-1 text-decoration-none" active-class="active" :to="{ name: 'notes'}" exact>
                     Notes
                 </router-link> 
-                <router-link class="mr-3 p-1 text-decoration-none" active-class="active" :to="{ name: 'addNotes'}" exact>
+                <router-link class="mr-3 p-1 text-decoration-none" active-class="active" :to="{ name: 'addNotes'}" exact  v-if="role === 'admin'">
                     Add notes
                 </router-link> 
                 <router-link class="text-decoration-none p-1 mr-3" active-class="active" :to="{ name: 'timetable'}" exact>
                    Timetable
                 </router-link>
-                <router-link class="text-decoration-none p-1 mr-3" active-class="active" :to="{ name: 'addTimetable'}" exact>
+                <router-link class="text-decoration-none p-1 mr-3" active-class="active" :to="{ name: 'addTimetable'}" exact  v-if="role === 'admin'">
                    Add Timetable
                 </router-link>
                  <router-link class="text-decoration-none p-1" active-class="active" :to="{ name: 'chat'}" exact>
@@ -31,6 +31,11 @@
 
     export default{
         name:'Department',
+        computed: {
+            role() {
+                return this.$store.state.auth.role;
+            },
+        },
     }
 </script>
 

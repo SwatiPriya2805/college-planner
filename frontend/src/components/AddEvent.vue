@@ -1,5 +1,5 @@
 <template>
-        <div class="container" id="add-event-box">
+        <div class="container mb-4" id="add-event-box">
             <h3 class="text-white">Add a new club event for {{this.name}}</h3>
             <hr>
             <!---input form for add new event-->
@@ -155,19 +155,19 @@
         data() {
             return {
                 processing: false,
-                // datestest:[
-                //     {
-                //         startTime:{
-                //             hours:'',
-                //             minutes:''
-                //         },
-                //         endTime:{
-                //             hours:'',
-                //             minutes:''
-                //         }
-                //     }
-                // ],
-                
+                input:[
+                    {
+                        date:'',
+                        startTime:{
+                            hours:null,
+                            minutes:null
+                        },
+                        endTime:{
+                            hours:null,
+                            minutes:null
+                        }
+                    }
+                ],
                 form: {
                     uploadDate: new Date().toDateString(),
                     title: '',
@@ -258,14 +258,14 @@
             add() {
             this.form.dates.push(
                 { 
-                    date:'',
+                    date:this.input.date,
                     startTime:{
-                        hours:'',
-                        minutes:''
+                        hours:this.input.startTime.hours,
+                        minutes:this.input.startTime.minutes
                     },
                     endTime:{
-                        hours:'',
-                        minutes:''
+                        hours:this.input.endTime.hours,
+                        minutes:this.input.endTime.minutes
                     }
                 }
             );
@@ -278,10 +278,10 @@
                 this.$v.form.$touch();
                 if( !this.$v.form.$invalid ) {
                     addEvent( this.form, this.name )
-                        .then(() => this.$router.push( { name: 'notice' } ))
+                        .then(() => this.$router.push( { name: 'clubList' } ))
                         .then(()=>{
                             Vue.$toast.open({
-                                message:'New notice added',
+                                message:'New event added',
                                 duration: config.toastDuration,
                                 type: 'success'
                             });

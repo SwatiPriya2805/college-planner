@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label for="image">Image</label>
                     <br/>
-                        <input 
+                        <!-- <input 
                             type="file"
                             name="image"
                             id="image"
@@ -42,19 +42,34 @@
                                 'is-invalid': shouldAppendErrorClass($v.form.image),
                                 'is-valid': shouldAppendValidClass($v.form.image)
                             }"
+                        /> -->
+                        <input 
+                            class="form-control"
+                            type="text" 
+                            name="image" id="image"
+                            v-model="form.image"
+                            @blur="$v.form.image.$touch()"
+                                :class="{
+                                    'is-invalid': shouldAppendErrorClass($v.form.image),
+                                    'is-valid': shouldAppendValidClass($v.form.image)
+                                }"
                         />
                         <br/>
-                        <br/>
-                        <div v-if="this.form.image !== null">
+                        <div v-if="$v.form.image.$error">
+                            <div v-if="!$v.form.image.required" class="error-message">
+                                <small>The image field is required</small>
+                            </div>
+                        </div>
+                        <!-- <div v-if="this.form.image !== null">
                             Image preview
                             <br/>
                             <img class="m-2 image" :src="avatar" alt="selected image" width="600">
-                        </div>
+                        </div> 
                         <div v-if="$v.form.image.$error">
                             <div v-if="!$v.form.image.checkFile" class="error-message">
                                 <small>The image field is required</small>
                             </div>
-                        </div> 
+                        </div> -->
                 </div>
 
 
@@ -79,9 +94,10 @@
                 form: {
                     uploadDate: new Date().toDateString(),
                     semester: '',
-                    image:null,
+                    image:'',
+                    //image:null
                 },
-                avatar:null
+                //avatar:null
             };
         },
         validations: {
@@ -98,27 +114,28 @@
                     },
                 },
                 image:{
-                    checkFile: function(){
-                         if(this.form.image === null){
-                            return false;
-                        }
-                        else{
-                            return true;
-                        }
-                    },
+                    // checkFile: function(){
+                    //      if(this.form.image === null){
+                    //         return false;
+                    //     }
+                    //     else{
+                    //         return true;
+                    //     }
+                    // },
+                    required
                 }
             }
         },
         methods: {
-            onFileSelected(event){
+            // onFileSelected(event){
 
-                this.form.image = event.target.files[0];
-                let reader = new FileReader();
-                reader.readAsDataURL(this.form.image);
-                reader.onload = event => {
-                    this.avatar = event.target.result
-                }
-            },
+            //     this.form.image = event.target.files[0];
+            //     let reader = new FileReader();
+            //     reader.readAsDataURL(this.form.image);
+            //     reader.onload = event => {
+            //         this.avatar = event.target.result
+            //     }
+            // },
             addTimetable() {
                 this.$v.form.$touch();
                 if( !this.$v.form.$invalid ) {

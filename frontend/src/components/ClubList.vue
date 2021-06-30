@@ -3,8 +3,8 @@
     fetch and display data (use id iet ieee) fetch data accordingly
 -->
 <template>
-    <div class="container">
-        <h3>Notice</h3>
+    <div class="container mt-5 pt-4">
+        <h3>List of clubs</h3>
         <hr class="border-info">
         <div  v-if="status === 'LOADING'">
         <AppAlert theme="info">
@@ -64,8 +64,8 @@
         },
         created() {
                 fetchClubs()
-                    .then(clubs => {
-                        this.clubs = clubs;
+                    .then(clubData => {
+                        this.clubData = clubData;
                         this.status = 'LOADED';
                     })
                     .then(()=>{

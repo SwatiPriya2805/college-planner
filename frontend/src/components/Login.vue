@@ -1,5 +1,5 @@
 <template>
-    <div class="row container-fluid">
+    <div class="row mt-5 pt-4 container-fluid">
         <div class="w-90 col-12">
             <h3>Login</h3>
             <hr class="border-info"/>
@@ -74,7 +74,7 @@
 
                         <br/>
                         <div class="form-group d-grid gap-2 col-12 mx-0">
-                            <button class="btn btn-info btn-block" :disabled="$v.form.$invalid">Login</button>
+                            <button class="btn btn-info btn-block" :disabled="$v.form.$invalid" type="submit">Login</button>
                             <app-spinner v-if="processing" />
                         </div>
                     </form>
@@ -112,7 +112,7 @@
 
 <script>
     import Vue from 'vue';
-    import { email, required, minLength } from 'vuelidate/lib/validators'
+    import { email, required, minLength } from 'vuelidate/lib/validators';
     import config from '@/config';
 
     export default {
